@@ -1,0 +1,7 @@
+{
+  "name": "Be3_Ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}

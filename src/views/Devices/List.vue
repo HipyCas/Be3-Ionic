@@ -20,53 +20,12 @@ vue/no-deprecated-slot-attribute */
 						}}</ion-badge>
 					</ion-item>
 				</ion-list-header>
-				<ion-item-sliding
+				<DeviceSlidingItem
 					v-for="device in onlineDevices"
 					:key="device.id"
-					:inset="true"
+					:device="device"
 				>
-					<!-- Left side options: Delete (expandable) -->
-					<ion-item-options side="start">
-						<ion-item-option color="danger" expandable>
-							<ion-icon
-								slot="top"
-								:md="trashBinSharp"
-								:ios="trashBinOutline"
-							></ion-icon>
-							Delete
-						</ion-item-option>
-					</ion-item-options>
-					<!-- Item content -->
-					<ion-item :router-link="`/devices/device/${device.id}`">
-						<ion-label>
-							<h6>{{ device.name }}</h6>
-							<p>{{ device.location }}</p>
-						</ion-label>
-					</ion-item>
-					<!-- Right side options: edit + more -->
-					<ion-item-options side="end">
-						<ion-item-option color="primary">
-							<ion-icon
-								slot="top"
-								:md="createSharp"
-								:ios="createOutline"
-							></ion-icon>
-							Edit
-						</ion-item-option>
-						<ion-item-option
-							@click="moreActionSheet(device)"
-							color="light"
-							expandable
-						>
-							<ion-icon
-								slot="top"
-								:md="ellipsisHorizontalSharp"
-								:ios="ellipsisVerticalOutline"
-							></ion-icon>
-							More
-						</ion-item-option>
-					</ion-item-options>
-				</ion-item-sliding>
+				</DeviceSlidingItem>
 			</ion-list>
 			<!--* Warnings -->
 			<ion-list style="margin-bottom:1rem" v-if="warningDevices.length > 0">
@@ -87,53 +46,11 @@ vue/no-deprecated-slot-attribute */
 					</ion-item>
 				</ion-list-header>
 				<!-- Items -->
-				<ion-item-sliding
+				<DeviceSlidingItem
 					v-for="device in warningDevices"
 					:key="device.id"
-					:inset="true"
-				>
-					<!-- Left side options: Delete (expandable) -->
-					<ion-item-options side="start">
-						<ion-item-option color="danger" expandable>
-							<ion-icon
-								slot="top"
-								:md="trashBinSharp"
-								:ios="trashBinOutline"
-							></ion-icon>
-							Delete
-						</ion-item-option>
-					</ion-item-options>
-					<!-- Item content -->
-					<ion-item :router-link="`/devices/device/${device.id}`">
-						<ion-label>
-							<h6>{{ device.name }}</h6>
-							<p>{{ device.location }}</p>
-						</ion-label>
-					</ion-item>
-					<!-- Right side options: edit + more -->
-					<ion-item-options side="end">
-						<ion-item-option color="primary">
-							<ion-icon
-								slot="top"
-								:md="createSharp"
-								:ios="createOutline"
-							></ion-icon>
-							Edit
-						</ion-item-option>
-						<ion-item-option
-							@click="moreActionSheet(device)"
-							color="light"
-							expandable
-						>
-							<ion-icon
-								slot="top"
-								:md="ellipsisHorizontalSharp"
-								:ios="ellipsisVerticalOutline"
-							></ion-icon>
-							More
-						</ion-item-option>
-					</ion-item-options>
-				</ion-item-sliding>
+					:device="device"
+				></DeviceSlidingItem>
 			</ion-list>
 			<!--* Offline/Errors -->
 			<ion-list v-if="offlineDevices.length > 0">
@@ -152,53 +69,7 @@ vue/no-deprecated-slot-attribute */
 						}}</ion-badge>
 					</ion-item>
 				</ion-list-header>
-				<ion-item-sliding
-					v-for="device in offlineDevices"
-					:key="device.id"
-					:inset="true"
-				>
-					<!-- Left side options: Delete (expandable) -->
-					<ion-item-options side="start">
-						<ion-item-option color="danger" expandable>
-							<ion-icon
-								slot="top"
-								:md="trashBinSharp"
-								:ios="trashBinOutline"
-							></ion-icon>
-							Delete
-						</ion-item-option>
-					</ion-item-options>
-					<!-- Item content -->
-					<ion-item :router-link="`/devices/device/${device.id}`">
-						<ion-label>
-							<h6>{{ device.name }}</h6>
-							<p>{{ device.location }}</p>
-						</ion-label>
-					</ion-item>
-					<!-- Right side options: edit + more -->
-					<ion-item-options side="end">
-						<ion-item-option color="primary">
-							<ion-icon
-								slot="top"
-								:md="createSharp"
-								:ios="createOutline"
-							></ion-icon>
-							Edit
-						</ion-item-option>
-						<ion-item-option
-							@click="moreActionSheet(device)"
-							color="light"
-							expandable
-						>
-							<ion-icon
-								slot="top"
-								:md="ellipsisHorizontalSharp"
-								:ios="ellipsisVerticalOutline"
-							></ion-icon>
-							More
-						</ion-item-option>
-					</ion-item-options>
-				</ion-item-sliding>
+				<DeviceSlidingItem v-for="device in offlineDevices" :key="device.id" :device="device"></DeviceSlidingItem>
 			</ion-list>
 			<!--* No devices registered -->
 			<full-page-text
@@ -230,11 +101,6 @@ import {
 	IonBadge,
 	IonList,
 	IonListHeader,
-	IonItemSliding,
-	IonItem,
-	IonItemOptions,
-	IonItemOption,
-	IonLabel,
 	IonFab,
 	IonFabButton,
 	actionSheetController,
@@ -258,7 +124,7 @@ import {
 	shareSocialSharp,
 	peopleCircleSharp,
 } from 'ionicons/icons';
-//import DeviceSlidingItem from '../../components/DeviceSlidingItem.vue';
+import DeviceSlidingItem from '../../components/DeviceSlidingItem.vue';
 import FullPageText from '../../components/FullPageText.vue';
 export default {
 	name: 'DevicesList',
@@ -270,14 +136,10 @@ export default {
 		IonBadge,
 		IonList,
 		IonListHeader,
-		IonItemSliding,
-		IonItem,
-		IonItemOptions,
-		IonItemOption,
-		IonLabel,
 		IonFab,
 		IonFabButton,
-		FullPageText /* DeviceSlidingItem, */,
+		FullPageText,
+		DeviceSlidingItem,
 	},
 	methods: {
 		async moreActionSheet(device) {

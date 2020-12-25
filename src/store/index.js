@@ -4,7 +4,7 @@ const store = createStore({
     state () {
         return {
             devices: [
-                /*{
+                {
                     'id': 1,
                     'name': 'First',
                     'location': '8º5"45\'N 5º56"7\'O',
@@ -27,7 +27,7 @@ const store = createStore({
                     'name': 'Fourth',
                     'location': '8º5"45\'N 5º56"7\'O',
                     'status': 2,
-                },*/
+                },
             ],
         };
     },

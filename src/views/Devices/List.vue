@@ -211,6 +211,7 @@ vue/no-deprecated-slot-attribute */
 				text="Add a new device with the add floating button below"
 			></full-page-text>
 			<!--* Create fab -->
+			<!-- TODO Add feature to create device by scanning qr in it -->
 			<ion-fab vertical="bottom" horizontal="end" slot="fixed">
 				<ion-fab-button router-link="/devices/add">
 					<ion-icon :md="addSharp" :ios="addOutline"></ion-icon>
@@ -258,7 +259,7 @@ import {
 	peopleCircleSharp,
 } from 'ionicons/icons';
 //import DeviceSlidingItem from '../../components/DeviceSlidingItem.vue';
-import FullPageText from '../../components/DeviceSlidingItem.vue';
+import FullPageText from '../../components/FullPageText.vue';
 export default {
 	name: 'DevicesList',
 	components: {

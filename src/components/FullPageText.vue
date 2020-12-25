@@ -1,7 +1,7 @@
 <template>
     <div id="container">
-        <strong>Work in progress</strong><br>
-        <ion-note>We are currently working hard to get this feture out, stay tunned!</ion-note>
+        <strong>{{ title }}</strong><br>
+        <ion-note>{{ text }}</ion-note>
     </div>
 </template>
 

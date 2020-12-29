@@ -3,6 +3,7 @@ import Overview from '../views/Overview.vue';
 import DeviceTabs from '../views/Devices/Tabs.vue';
 import DataTabs from '../views/Data/Tabs.vue';
 import SettingsTabs from '../views/Settings/Tabs.vue';
+import MessagesTabs from '../views/Messages/Tabs.vue';
 
 const routes = [
   //* Start redirect
@@ -93,6 +94,29 @@ const routes = [
       {
         path: 'devicesanddata',
         component: () => import('../views/Settings/DevicesAndData.vue')
+      }
+    ]
+  },
+  //* Messages
+  {
+    path: '/messages/',
+    component: MessagesTabs,
+    children: [
+      {
+        path: '',
+        redirect: '/messages/alerts'
+      },
+      {
+        path: 'alerts',
+        component: () => import('../views/Messages/Alerts.vue')
+      },
+      {
+        path: 'broadcast',
+        component: () => import('../views/Messages/Broadcast.vue')
+      },
+      {
+        path: 'developer',
+        component: () => import('../views/Messages/Developer.vue')
       }
     ]
   }

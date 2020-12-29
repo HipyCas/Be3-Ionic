@@ -96,6 +96,8 @@ import {
 	analyticsOutline,
 	optionsSharp,
 	optionsOutline,
+	megaphoneSharp,
+	megaphoneOutline,
 	bookmarkSharp,
 	bookmarkOutline,
 	chevronDownSharp,
@@ -160,6 +162,12 @@ export default defineComponent({
 				iosIcon: optionsOutline,
 				mdIcon: optionsSharp,
 			},
+			{
+				title: 'Messages',
+				url: '/messages/',
+				iosIcon: megaphoneOutline,
+				mdIcon: megaphoneSharp
+			}
 		];
 		const labels = [
 			'Family',

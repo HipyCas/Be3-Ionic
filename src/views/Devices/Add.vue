@@ -6,6 +6,9 @@
             <ion-item style="margin-top: 1rem">
                 <ion-label position="floating">Device name</ion-label>
                 <ion-input></ion-input>
+            </ion-item><ion-item style="margin-top: 1rem">
+                <ion-label position="floating">Location</ion-label>
+                <ion-input></ion-input>
             </ion-item>
         </ion-content>
     </ion-page>

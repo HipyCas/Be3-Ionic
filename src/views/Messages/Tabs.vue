@@ -36,6 +36,11 @@
 
 <script>
 import {
+	IonHeader,
+	IonToolbar,
+	IonButtons,
+	IonMenuButton,
+	IonTitle,
 	IonTabBar,
 	IonTabButton,
 	IonTabs,
@@ -56,6 +61,11 @@ import {
 export default {
 	name: 'Tabs',
 	components: {
+		IonHeader,
+		IonToolbar,
+		IonButtons,
+		IonMenuButton,
+		IonTitle,
 		IonContent,
 		IonLabel,
 		IonTabs,

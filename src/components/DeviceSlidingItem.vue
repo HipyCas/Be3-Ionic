@@ -33,7 +33,7 @@
 					slot="top"
 					:md="ellipsisHorizontalSharp"
 					:ios="ellipsisVerticalOutline"
-                    @click="moreActionSheet"
+					@click="moreActionSheet"
 				></ion-icon>
 				More
 			</ion-item-option>
@@ -48,8 +48,8 @@ import {
 	IonLabel,
 	IonItemOptions,
 	IonItemOption,
-    IonIcon,
-    actionSheetController
+	IonIcon,
+	actionSheetController,
 } from '@ionic/vue';
 import {
 	trashBinSharp,
@@ -57,10 +57,10 @@ import {
 	createSharp,
 	createOutline,
 	ellipsisHorizontalSharp,
-    ellipsisVerticalOutline,
-    analyticsSharp,
-    shareSocialSharp,
-    peopleCircleSharp,
+	ellipsisVerticalOutline,
+	analyticsSharp,
+	shareSocialSharp,
+	peopleCircleSharp,
 } from 'ionicons/icons';
 
 export default {
@@ -73,8 +73,8 @@ export default {
 		IonItemOptions,
 		IonItemOption,
 		IonIcon,
-    },
-    methods: {
+	},
+	methods: {
 		async moreActionSheet(device) {
 			const actionSheet = await actionSheetController.create({
 				header: `Device ${device.name}`,
@@ -103,8 +103,8 @@ export default {
 				],
 			});
 			return actionSheet.present();
-        },
-    },
+		},
+	},
 	setup() {
 		return {
 			trashBinSharp,

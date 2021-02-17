@@ -69,7 +69,11 @@ vue/no-deprecated-slot-attribute */
 						}}</ion-badge>
 					</ion-item>
 				</ion-list-header>
-				<DeviceSlidingItem v-for="device in offlineDevices" :key="device.id" :device="device"></DeviceSlidingItem>
+				<DeviceSlidingItem
+					v-for="device in offlineDevices"
+					:key="device.id"
+					:device="device"
+				></DeviceSlidingItem>
 			</ion-list>
 			<!--* No devices registered -->
 			<full-page-text
@@ -101,6 +105,7 @@ import {
 	IonBadge,
 	IonList,
 	IonListHeader,
+	IonItem,
 	IonFab,
 	IonFabButton,
 	actionSheetController,
@@ -136,6 +141,7 @@ export default {
 		IonBadge,
 		IonList,
 		IonListHeader,
+		IonItem,
 		IonFab,
 		IonFabButton,
 		FullPageText,

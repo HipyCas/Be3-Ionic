@@ -111,6 +111,10 @@ const routes = [
         component: () => import('../views/Messages/Alerts.vue')
       },
       {
+        path: 'alert/:id',
+        component: () => import('../views/Messages/Alert.vue')
+      },
+      {
         path: 'broadcast',
         component: () => import('../views/Messages/Broadcast.vue')
       },
@@ -119,6 +123,12 @@ const routes = [
         component: () => import('../views/Messages/Developer.vue')
       }
     ]
+  },
+  //* Other
+  // Feature Lab
+  {
+    path: '/feature-lab/',
+    component: () => import('../views/Other/FeatureLab.vue')
   }
 ];
 

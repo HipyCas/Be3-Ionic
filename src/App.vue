@@ -96,8 +96,8 @@ import {
 	analyticsOutline,
 	optionsSharp,
 	optionsOutline,
-	megaphoneSharp,
-	megaphoneOutline,
+	chatboxSharp,
+	chatboxOutline,
 	bookmarkSharp,
 	bookmarkOutline,
 	chevronDownSharp,
@@ -157,17 +157,17 @@ export default defineComponent({
 				mdIcon: analyticsSharp,
 			},
 			{
+				title: 'Messages',
+				url: '/messages/',
+				iosIcon: chatboxOutline,
+				mdIcon: chatboxSharp
+			},
+			{
 				title: 'Settings',
 				url: '/settings/',
 				iosIcon: optionsOutline,
 				mdIcon: optionsSharp,
 			},
-			{
-				title: 'Messages',
-				url: '/messages/',
-				iosIcon: megaphoneOutline,
-				mdIcon: megaphoneSharp
-			}
 		];
 		const labels = [
 			'Family',
@@ -198,6 +198,9 @@ export default defineComponent({
 			isSelected: (url) => (url === route.path ? 'selected' : ''),
 		};
 	},
+	mounted () {
+		this.$store.dispatch('loadData');
+	}
 });
 </script>
 

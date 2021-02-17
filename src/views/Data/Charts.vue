@@ -1,94 +1,98 @@
 <template>
-    <ion-page>
-        <ion-content>
-            <ion-card>
-                <ion-card-header>
-                    <ion-card-title>Temperature - Temperature</ion-card-title>
-                    <ion-card-subtitle>Relationship Outside temperature - Inside temperature</ion-card-subtitle>
-                </ion-card-header>
-                <ion-card-content>
-                    <div style="position: relative;">
-                        <canvas id="ttchart">
-
-                        </canvas>
-                    </div>
-                </ion-card-content>
-            </ion-card>
-        </ion-content>
-    </ion-page>
+	<ion-page>
+		<ion-content>
+			<ion-card>
+				<ion-card-header>
+					<ion-card-title>Temperature - Temperature</ion-card-title>
+					<ion-card-subtitle
+						>Relationship Outside temperature - Inside
+						temperature</ion-card-subtitle
+					>
+				</ion-card-header>
+				<ion-card-content>
+					<div style="position: relative;">
+						<canvas id="ttchart"> </canvas>
+					</div>
+				</ion-card-content>
+			</ion-card>
+		</ion-content>
+	</ion-page>
 </template>
 
 <script>
 import Chart from 'chart.js';
+import planetChartData from '../../charts';
 import {
-    IonPage,
-    IonContent,
-    IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardSubtitle,
-    IonCardContent,
+	IonPage,
+	IonContent,
+	IonCard,
+	IonCardHeader,
+	IonCardTitle,
+	IonCardSubtitle,
+	IonCardContent,
 } from '@ionic/vue';
 
 export default {
-    components: {
-        IonPage,
-        IonContent,
-        IonCard,
-        IonCardHeader,
-        IonCardTitle,
-        IonCardSubtitle,
-        IonCardContent,
-    },
-    computed: {
-        records() {
-            return this.$store.getters.records;
-        },
-        ttdata() {
-            let data = [];
-            for (let record in this.records) {
-                data.push({
-                    x: record.outside_temp,
-                    y: record.inside_temp,
-                    r: Math.abs(record.outside_temp - record.inside_temp)
-                });
-            }
-            return data;
-        }
-    },
-    methods: {
-        createChart() {
-            const ctx = document.getElementById('ttchart');
-            let data = [];
-            for (let record in this.records) {
-                data.push({
-                    x: record.outside_temp,
-                    y: record.inside_temp,
-                    r: Math.abs(record.outside_temp - record.inside_temp)
-                });
-            }
-            const chart = new Chart(ctx, {
-                type: 'bubble',
-                data: data,
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
-            });
-            return chart;
-        }
-    },
-    mounted() {
-        this.createChart();
-    }
-}
+	components: {
+		IonPage,
+		IonContent,
+		IonCard,
+		IonCardHeader,
+		IonCardTitle,
+		IonCardSubtitle,
+		IonCardContent,
+	},
+	data() {
+		return {
+			planetChartData,
+		};
+	},
+	computed: {
+		records() {
+			console.log(`this.records (${this.$store.getters.records.length}):`);
+			this.$store.getters.records.forEach((r) => {
+				console.log(`${r}: {`);
+				console.log(`\tinside_temp: ${r.inside_temp},`);
+				console.log(`\toutside_temp: ${r.outside_temp}`);
+				console.log('}');
+			});
+			return this.$store.getters.records;
+		},
+		ttdata() {
+			let data = [];
+			this.records.forEach((record) => {
+				console.log(
+					`Pushing for record id ${record.id}: {x: ${record.outside_temp}, y: ${record.inside_temp}}`
+				);
+				data.push({
+					x: record.outside_temp,
+					y: record.inside_temp,
+					r: Math.abs(record.outside_temp - record.inside_temp),
+				});
+			});
+			console.info(`Data (${data.length}):`);
+			data.forEach((d) => {
+				console.log(`x: ${d.x}, y: ${d.y}, radius: ${d.r}`);
+			});
+			return data;
+		},
+	},
+	methods: {
+		createChart(chartId, chartData) {
+			const ctx = document.getElementById(chartId);
+
+			const myChart = new Chart(ctx, {
+				type: chartData.type,
+				data: chartData.data,
+				options: chartData.options,
+			});
+			return myChart;
+		},
+	},
+	mounted() {
+		this.createChart('ttchart', this.planetChartData);
+	},
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -246,7 +246,7 @@ export default {
 			});
 		},
 	},
-	mounted() {
+	ionViewWillEnter() {
 		this.localFeatures = this.features;
 	},
 };

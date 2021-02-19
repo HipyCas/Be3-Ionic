@@ -1,7 +1,7 @@
 <template>
 	<ion-item-sliding :inset="true">
 		<!-- Left side options: Delete (expandable) -->
-		<ion-item-options side="start">
+		<ion-item-options side="start" @ionSwipe="confirmDelete(alert)">
 			<ion-item-option color="danger" @click="confirmDelete(alert)" expandable>
 				<ion-icon
 					slot="top"
@@ -22,7 +22,7 @@
 			</ion-label>
 		</ion-item>
 		<!-- Right side options: edit + more -->
-		<ion-item-options side="end">
+		<ion-item-options side="end" @ionSwipe="moreActionSheet(alert)">
 			<ion-item-option color="primary">
 				<ion-icon slot="top" :md="cubeSharp" :ios="cubeOutline"></ion-icon>
 				Device
@@ -80,9 +80,9 @@ export default {
 		async confirmDelete(alert) {
 			const confirm = await alertController.create({
 				header: 'Confirm delete',
-				subHeader: `Alert #${alert.id}`,
+				subHeader: `Alert #${alert.title}`,
 				message:
-					'Are you sure you want to delete this alert? <strong>THIS CANNOT BE UNDONE</strong>',
+					'Are you sure you want to delete this alert?<br><strong>THIS CANNOT BE UNDONE</strong>',
 				buttons: [
 					{
 						text: 'Cancel',

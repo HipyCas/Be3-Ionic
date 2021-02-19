@@ -1,8 +1,12 @@
 <template>
 	<ion-item-sliding :inset="true">
 		<!-- Left side options: Delete (expandable) -->
-		<ion-item-options side="start">
-			<ion-item-option color="danger" expandable>
+		<ion-item-options side="start" @ionSwipe="deleteConfirmation(device)">
+			<ion-item-option
+				@click="deleteConfirmation(device)"
+				color="danger"
+				expandable
+			>
 				<ion-icon
 					slot="top"
 					:md="trashBinSharp"
@@ -19,7 +23,7 @@
 			</ion-label>
 		</ion-item>
 		<!-- Right side options: edit + more -->
-		<ion-item-options side="end">
+		<ion-item-options side="end" @ionSwipe="moreActionSheet(device)">
 			<ion-item-option color="primary">
 				<ion-icon slot="top" :md="createSharp" :ios="createOutline"></ion-icon>
 				Edit
@@ -50,6 +54,7 @@ import {
 	IonItemOption,
 	IonIcon,
 	actionSheetController,
+	alertController,
 } from '@ionic/vue';
 import {
 	trashBinSharp,
@@ -103,6 +108,30 @@ export default {
 				],
 			});
 			return actionSheet.present();
+		},
+		async deleteConfirmation(device) {
+			const alert = await alertController.create({
+				header: 'Confirm Delete',
+				subHeader: `Device ${device.name}`,
+				message: `Are you sure you want to delete this device?<br><strong>THIS CANNOT BE UNDONE</strong>`,
+				buttons: [
+					{
+						text: 'Cancel',
+						role: 'cancel',
+						handler: () => {
+							console.log(`Device #${device.id} NOT deleted`);
+						},
+					},
+					{
+						text: 'Delete',
+						cssClass: 'delete',
+						handler: () => {
+							console.log(`Device #${device.id} deleted`);
+						},
+					},
+				],
+			});
+			return alert.present();
 		},
 	},
 	setup() {

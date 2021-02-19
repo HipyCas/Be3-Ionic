@@ -5,6 +5,7 @@
 				<ion-content>
 					<ion-list id="inbox-list">
 						<ion-list-header>Welcome Hipy</ion-list-header>
+						<!-- Options popover -->
 						<ion-button
 							fill="clear"
 							expand=""
@@ -20,6 +21,7 @@
 							></ion-icon>
 						</ion-button>
 
+						<!-- Section list -->
 						<ion-menu-toggle
 							auto-hide="false"
 							v-for="(p, i) in appPages"
@@ -128,6 +130,7 @@ export default defineComponent({
 				translucent: true,
 				componentProps: {
 					onClick: () => {
+						this.selectedIndex = ref(-1);
 						popover.dismiss();
 					},
 				},
@@ -160,7 +163,7 @@ export default defineComponent({
 				title: 'Messages',
 				url: '/messages/',
 				iosIcon: chatboxOutline,
-				mdIcon: chatboxSharp
+				mdIcon: chatboxSharp,
 			},
 			{
 				title: 'Settings',
@@ -169,12 +172,7 @@ export default defineComponent({
 				mdIcon: optionsSharp,
 			},
 		];
-		const labels = [
-			'Family',
-			'Friends',
-			'Work',
-			'Travel',
-		];
+		const labels = ['Family', 'Friends', 'Work', 'Travel'];
 
 		const path = window.location.pathname.split('/')[1];
 		if (path !== undefined) {
@@ -198,9 +196,9 @@ export default defineComponent({
 			isSelected: (url) => (url === route.path ? 'selected' : ''),
 		};
 	},
-	mounted () {
+	mounted() {
 		this.$store.dispatch('loadData');
-	}
+	},
 });
 </script>
 

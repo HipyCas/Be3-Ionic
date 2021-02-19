@@ -86,11 +86,21 @@ vue/no-deprecated-slot-attribute */
 				text="Add a new device with the add floating button below"
 			></full-page-text>
 			<!--* Create fab -->
-			<!-- TODO Add feature to create device by scanning qr in it -->
+			<!-- DONE Add feature to create device by scanning qr in it -->
 			<ion-fab vertical="bottom" horizontal="end" slot="fixed">
-				<ion-fab-button router-link="/devices/add">
+				<ion-fab-button color="primary">
 					<ion-icon :md="addSharp" :ios="addOutline"></ion-icon>
 				</ion-fab-button>
+				<ion-fab-list side="top">
+					<!-- Manually create device -->
+					<ion-fab-button color="light" router-link="/devices/add"
+						><ion-icon :md="pencilSharp" :ios="pencilOutline"></ion-icon
+					></ion-fab-button>
+					<!-- Scan device qrcode for api token and short unique identifier -->
+					<ion-fab-button color="primary" @click="qrCodeActionSheet()"
+						><ion-icon :md="qrCodeSharp" :ios="qrCodeOutline"></ion-icon
+					></ion-fab-button>
+				</ion-fab-list>
 			</ion-fab>
 		</ion-content>
 	</ion-page>
@@ -107,6 +117,7 @@ import {
 	IonListHeader,
 	IonItem,
 	IonFab,
+	IonFabList,
 	IonFabButton,
 	actionSheetController,
 } from '@ionic/vue';
@@ -119,6 +130,10 @@ import {
 	closeCircleOutline,
 	addSharp,
 	addOutline,
+	qrCodeSharp,
+	qrCodeOutline,
+	pencilSharp,
+	pencilOutline,
 	trashBinSharp,
 	trashBinOutline,
 	createSharp,
@@ -128,6 +143,8 @@ import {
 	analyticsSharp,
 	shareSocialSharp,
 	peopleCircleSharp,
+	cameraSharp,
+	imageSharp,
 } from 'ionicons/icons';
 import DeviceSlidingItem from '../../components/DeviceSlidingItem.vue';
 import FullPageText from '../../components/FullPageText.vue';
@@ -143,6 +160,7 @@ export default {
 		IonListHeader,
 		IonItem,
 		IonFab,
+		IonFabList,
 		IonFabButton,
 		FullPageText,
 		DeviceSlidingItem,
@@ -177,8 +195,27 @@ export default {
 			});
 			return actionSheet.present();
 		},
-		async clickFab() {
-			console.log('Fab clicked');
+		async qrCodeActionSheet() {
+			const actionSheet = await actionSheetController.create({
+				header: `Scan QR Code`,
+				buttons: [
+					{
+						text: 'Take photo',
+						icon: cameraSharp,
+						handler: () => {
+							console.log('ADD QRCODE: Take picture');
+						},
+					},
+					{
+						text: 'Pick image',
+						icon: imageSharp,
+						handler: () => {
+							console.log('ADD QRCODE: Pick image');
+						},
+					},
+				],
+			});
+			return actionSheet.present();
 		},
 	},
 	computed: {
@@ -202,6 +239,10 @@ export default {
 			closeCircleOutline,
 			addSharp,
 			addOutline,
+			qrCodeSharp,
+			qrCodeOutline,
+			pencilSharp,
+			pencilOutline,
 			trashBinSharp,
 			trashBinOutline,
 			createSharp,

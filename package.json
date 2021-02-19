@@ -7,9 +7,11 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "npm i --dev && npm i http-server && npm run build && http-serve dist/"
   },
   "dependencies": {
+    "@capacitor/android": "^2.4.5",
     "@capacitor/core": "2.4.5",
     "@ionic/vue": "^5.4.0",
     "@ionic/vue-router": "^5.4.0",

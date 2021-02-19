@@ -111,7 +111,7 @@ export default {
 		},
 		customViewsEnabledButtonColor() {
 			console.info(`Number of custom views: ${this.customViews}`);
-			if (!this.customAccentColor) return 'medium';
+			if (!this.customViewsEnabled) return 'medium';
 			else if (this.customViews === 0) return 'light';
 			return 'primary';
 		},
@@ -236,6 +236,14 @@ export default {
 				console.log('Dismissed customViews picker');
 			});
 			return picker.present();
+		},
+	},
+	watch: {
+		'localFeatures.matrixOrgClient'() {
+			this.$store.dispatch('setFeature', {
+				name: 'matrixOrgClient',
+				value: this.localFeatures.matrixOrgClient,
+			});
 		},
 	},
 	mounted() {

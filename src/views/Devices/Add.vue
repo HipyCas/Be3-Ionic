@@ -25,7 +25,7 @@
 						</ion-item>
 					</ion-col>
 					<ion-col>
-						<ion-item style="display:inline">
+						<ion-item>
 							<ion-label position="floating">North (Coordinates)</ion-label>
 							<ion-input></ion-input>
 						</ion-item>

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Be3 Dashboard</string>
+    <string name="title_activity_main">Be3 Dashboard</string>
+    <string name="package_name">net.hipycas.be3</string>
+    <string name="custom_url_scheme">net.hipycas.be3</string>
+</resources>

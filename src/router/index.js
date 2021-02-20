@@ -41,21 +41,21 @@ const routes = [
 				path: 'map',
 				component: () => import('../views/Devices/Map.vue'),
 			},
-      // Single device: device page accessed by device id
+			// Single device: device page accessed by device id
 			{
 				path: 'device/:id',
 				component: () => import('../views/Devices/Device.vue'),
 			},
-      // Add device form: for for adding new device
+			// Add device form: for for adding new device
 			{
 				path: 'add',
 				component: () => import('../views/Devices/Add.vue'),
 			},
-      // Scan device qrCode: prompt for picture and redirect to form
-      {
-        path: 'scan',
-        component: '<h1>Hi</h1>'
-      }
+			// Scan device qrCode: prompt for picture and redirect to form
+			{
+				path: 'scan',
+				component: '<h1>Hi</h1>',
+			},
 		],
 	},
 	// * Data visualization
@@ -128,6 +128,10 @@ const routes = [
 			{
 				path: 'developer',
 				component: () => import('../views/Messages/Developer.vue'),
+			},
+			{
+				path: 'matrix',
+				component: () => import('../views/Messages/Matrix.vue'),
 			},
 		],
 	},

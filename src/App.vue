@@ -4,6 +4,7 @@
 			<ion-menu content-id="main-content" type="overlay" :hidden="isAuth">
 				<ion-content>
 					<ion-list id="inbox-list">
+						<!-- TODO Remove bottom border when custom views disabled -->
 						<ion-list-header>Welcome Hipy</ion-list-header>
 						<!-- Options popover -->
 						<ion-button
@@ -46,13 +47,13 @@
 						</ion-menu-toggle>
 					</ion-list>
 
-					<ion-list id="labels-list">
+					<ion-list id="labels-list" v-if="customViews">
 						<ion-list-header>Custom Views</ion-list-header>
 
 						<ion-item
-							v-for="(label, index) in labels"
-							lines="none"
+							v-for="(label, index) in computedLabels"
 							:key="index"
+							lines="none"
 							router-direction="/views/"
 						>
 							<ion-icon
@@ -122,6 +123,28 @@ export default defineComponent({
 		IonRouterOutlet,
 		IonSplitPane,
 	},
+	data() {
+		return {
+			labels: [
+				'All',
+				'Temperature',
+				'Humidity',
+				'Ext T - Ext H',
+				'Int T - Int H',
+			],
+		};
+	},
+	computed: {
+		customViews() {
+			return this.$store.getters.feature('customViews');
+		},
+		customViewsValue() {
+			return this.$store.getters.feature('customViewsValue');
+		},
+		computedLabels() {
+			return this.labels.filter((v, i) => i < this.customViewsValue);
+		},
+	},
 	methods: {
 		async openPopover(ev) {
 			const popover = await popoverController.create({
@@ -172,7 +195,6 @@ export default defineComponent({
 				mdIcon: optionsSharp,
 			},
 		];
-		const labels = ['Family', 'Friends', 'Work', 'Travel'];
 
 		const path = window.location.pathname.split('/')[1];
 		if (path !== undefined) {
@@ -189,7 +211,6 @@ export default defineComponent({
 			bookmarkSharp,
 			selectedIndex,
 			appPages,
-			labels,
 			isAuth,
 			chevronDownSharp,
 			chevronDownOutline,
@@ -197,6 +218,7 @@ export default defineComponent({
 		};
 	},
 	mounted() {
+		//!this.$store.dispatch('updateLocalStorageFeatures'); <- Use this whenever you update available features, just once
 		this.$store.dispatch('loadData');
 	},
 });

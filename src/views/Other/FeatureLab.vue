@@ -9,8 +9,10 @@
 			</ion-toolbar>
 		</ion-header>
 		<ion-content class="ion-padding">
+			<!-- THEMING (forceDarkTheme, customAccentColor) -->
 			<ion-list>
 				<ion-list-header><h3>Theming</h3></ion-list-header>
+				<!-- forceDarkTheme -->
 				<ion-item>
 					<p>Force dark theme</p>
 					<ion-toggle
@@ -18,6 +20,7 @@
 						v-model="localFeatures.forceDarkTheme"
 					></ion-toggle>
 				</ion-item>
+				<!-- customAccentColor -->
 				<ion-item>
 					<p>Custom accent color</p>
 					<ion-button
@@ -30,8 +33,10 @@
 					<ion-toggle slot="end" v-model="customAccentColor"></ion-toggle>
 				</ion-item>
 			</ion-list>
+			<!-- SECTIONS (matrixOrgClient, customViews)-->
 			<ion-list>
 				<ion-list-header><h3>Sections</h3></ion-list-header>
+				<!-- matrixOrgClient -->
 				<ion-item>
 					<p>Matrix.org client</p>
 					<ion-toggle
@@ -39,16 +44,20 @@
 						v-model="localFeatures.matrixOrgClient"
 					></ion-toggle>
 				</ion-item>
+				<!-- customViews -->
 				<ion-item>
 					<p>Custom views</p>
 					<ion-button
 						@click="customViewsPicker()"
-						:disabled="!customViewsEnabled"
+						:disabled="!localFeatures.customViews"
 						:color="customViewsEnabledButtonColor"
 						slot="end"
-						>{{ customViews }}</ion-button
+						>{{ localFeatures.customViewsValue }}</ion-button
 					>
-					<ion-toggle slot="end" v-model="customViewsEnabled"></ion-toggle>
+					<ion-toggle
+						slot="end"
+						v-model="localFeatures.customViews"
+					></ion-toggle>
 				</ion-item>
 			</ion-list>
 		</ion-content>
@@ -94,11 +103,11 @@ export default {
 	},
 	data() {
 		return {
-			localFeatures: {},
+			//localFeatures: {},
 			color: 'blue',
 			customAccentColor: false,
-			customViews: 0,
-			customViewsEnabled: false,
+			//customViews: 0,
+			//customViewsEnabled: false,
 		};
 	},
 	computed: {
@@ -110,13 +119,18 @@ export default {
 			return 'light';
 		},
 		customViewsEnabledButtonColor() {
-			console.info(`Number of custom views: ${this.customViews}`);
-			if (!this.customViewsEnabled) return 'medium';
-			else if (this.customViews === 0) return 'light';
+			console.info(
+				`Number of custom views: ${this.localFeatures.customViewsValue}`
+			);
+			if (!this.localFeatures.customViews) return 'medium';
+			else if (this.localFeatures.customViewsValue === 0) return 'light';
 			return 'primary';
 		},
 		features() {
 			return this.$store.getters.features;
+		},
+		localFeatures() {
+			return this.features;
 		},
 	},
 	methods: {
@@ -179,7 +193,7 @@ export default {
 			return picker.present();
 		},
 		async customViewsPicker() {
-			let selectedIndex = this.customViews;
+			let selectedIndex = this.localFeatures.customViewsValue;
 			const picker = await pickerController.create({
 				columns: [
 					{
@@ -221,13 +235,13 @@ export default {
 					{
 						text: 'Default',
 						handler: () => {
-							this.customViews = 0;
+							this.localFeatures.customViewsValue = 0;
 						},
 					},
 					{
 						text: 'Confirm',
 						handler: (value) => {
-							this.customViews = value.number.value;
+							this.localFeatures.customViewsValue = value.number.value;
 						},
 					},
 				],
@@ -239,15 +253,23 @@ export default {
 		},
 	},
 	watch: {
-		'localFeatures.matrixOrgClient'() {
-			this.$store.dispatch('setFeature', {
-				name: 'matrixOrgClient',
-				value: this.localFeatures.matrixOrgClient,
-			});
+		localFeatures: {
+			handler() {
+				this.$store
+					.dispatch('setFeatures', this.localFeatures)
+					.then(() => console.log('Features successfully saved'))
+					.catch((e) =>
+						console.error(`An error was risen while updating the store: ${e}`)
+					);
+			},
+			deep: true,
 		},
 	},
 	ionViewWillEnter() {
-		this.localFeatures = this.features;
+		//this.localFeatures = this.features;
+		console.log(
+			`Obtained the following features: forceDarkTheme -> ${this.localFeatures.forceDarkTheme}, customAccentColor -> ${this.localFeatures.customAccentColor} [customAccentColorValue -> ${this.localFeatures.customAccentColorValue}]`
+		);
 	},
 };
 </script>

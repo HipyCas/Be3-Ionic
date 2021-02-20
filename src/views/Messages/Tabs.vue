@@ -21,9 +21,9 @@
 						<ion-label>Broadcast</ion-label>
 					</ion-tab-button>
 
-					<ion-tab-button tab="tab3" href="/messages/developer">
-						<ion-icon :md="codeSharp" :ios="codeOutline" />
-						<ion-label>Developer</ion-label>
+					<ion-tab-button tab="tab3" :href="thirdTabLink">
+						<ion-icon :md="thirdTabIconMD" :ios="thirdTabIconIOS" />
+						<ion-label>{{ thirdTabLabel }}</ion-label>
 					</ion-tab-button>
 				</ion-tab-bar>
 			</ion-tabs>
@@ -53,6 +53,8 @@ import {
 	megaphoneOutline,
 	codeSharp,
 	codeOutline,
+	globeSharp,
+	globeOutline,
 } from 'ionicons/icons';
 
 export default {
@@ -71,14 +73,29 @@ export default {
 		IonIcon,
 		IonPage,
 	},
+	computed: {
+		matrixOrgClient() {
+			return this.$store.getters.feature('matrixOrgClient');
+		},
+		thirdTabLink() {
+			return this.matrixOrgClient ? '/messages/matrix' : '/messages/developer';
+		},
+		thirdTabIconMD() {
+			return this.matrixOrgClient ? globeSharp : codeSharp;
+		},
+		thirdTabIconIOS() {
+			return this.matrixOrgClient ? globeOutline : codeOutline;
+		},
+		thirdTabLabel() {
+			return this.matrixOrgClient ? 'Matrix' : 'Developer';
+		},
+	},
 	setup() {
 		return {
 			warningSharp,
 			warningOutline,
 			megaphoneSharp,
 			megaphoneOutline,
-			codeSharp,
-			codeOutline,
 		};
 	},
 };

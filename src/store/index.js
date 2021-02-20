@@ -1,6 +1,8 @@
 /* eslint-disable no-prototype-builtins */
 import axios from 'axios';
 import { createStore } from 'vuex';
+import { Plugins } from '@capacitor/core';
+const { Storage } = Plugins;
 
 const store = createStore({
 	state() {
@@ -87,28 +89,86 @@ const store = createStore({
 			state.records = JSON.parse(data);
 		},
 		//* Features
+		// Load saved features from localStorage
+		loadFeatures(state) {
+			Storage.get({ key: 'features' })
+				.then(({ value }) => {
+					state.features = JSON.parse(value);
+					console.info(
+						`Successfully updated features from localStorage to ${value}`
+					);
+				})
+				.catch((e) =>
+					console.error(`Couldn't retrieve features from localStorage: ${e}`)
+				);
+		},
+		// Update all features to a matching object
+		updateFeatures(state, features) {
+			state.features = features;
+		},
+		// Update an specific feature
 		updateFeature(state, options) {
 			state.features[options.name] = options.value;
 		},
 	},
 	actions: {
-		loadData() {
+		loadData(context) {
+			console.log(`Started load of devices from DB`);
 			axios
 				.get('localhost:9000/devices/')
-				.then((response) => this.mutations.updateDevices(response.data))
+				.then((response) => context.commit('updateDevices', response.data))
 				.catch((err) =>
 					console.error(`Caught error when requesting all devices: ${err}`)
 				);
+			console.log(`Started load of records from DB`);
 			axios
 				.get('localhost:9000/records/')
-				.then((response) => this.updateRecords(response.data))
+				.then((response) => context.commit('updateRecords', response.data))
 				.catch((err) =>
 					console.error(`Caught error when requesting all devices: ${err}`)
 				);
+			console.log(`Started load of features from localStorage`);
+
+			context.commit('loadFeatures');
 		},
 		/**
 		 *
-		 * @param {*} context
+		 * @param {Object} context
+		 * @param {Object} context.state
+		 * @param {Object} context.state.features
+		 * @param {Boolean} context.state.features.forceDarkTheme
+		 * @param {Function} context.commit
+		 * @param {Object} features - The new features to be written to the store
+		 * @param {Boolean} features.forceDarkTheme - Wether or not to force the dark theme
+		 */
+		setFeatures(context, features) {
+			return new Promise((resolve, reject) => {
+				if (
+					Object.keys(features).length !==
+					Object.keys(context.state.features).length
+				)
+					reject(
+						'Store expects same features, but found different ones (more or less than expected)'
+					);
+				try {
+					context.commit('updateFeatures', features);
+					console.info('Updated features in Vuex store');
+				} catch (e) {
+					reject(e);
+				}
+				try {
+					context.dispatch('updateLocalStorageFeatures');
+					console.info('Updated features in local storage');
+					resolve();
+				} catch (e) {
+					reject(e);
+				}
+			});
+		},
+		/**
+		 * Set an specific feature to a value passed
+		 *
+		 * param {*} context
 		 * @param {Object} options - An object with the name of the feature and the desired value
 		 * @param {String} options.name - The name of the feature to update
 		 * @param {*} options.value - The value the feature will be set to
@@ -119,11 +179,34 @@ const store = createStore({
 				if (!options.hasOwnProperty('value')) reject('No value found');
 				try {
 					context.commit('updateFeature', options);
+					console.info('Updated features in Vuex store');
+				} catch (e) {
+					reject(e);
+				}
+				try {
+					context.dispatch('updateLocalStorageFeatures');
+					console.info('Updated features in local storage');
 					resolve();
 				} catch (e) {
 					reject(e);
 				}
 			});
+		},
+		updateLocalStorageFeatures({ state }) {
+			Storage.set({
+				key: 'features',
+				value: JSON.stringify(state.features),
+			})
+				.then(() =>
+					console.info(
+						`Successfully updated features in localStorage to ${JSON.stringify(
+							state.features
+						)}`
+					)
+				)
+				.catch((e) =>
+					console.error(`Error when updating features in localStorage: ${e}`)
+				);
 		},
 	},
 	getters: {
@@ -134,9 +217,7 @@ const store = createStore({
 		},
 		// Device by id
 		device(store) {
-			return (id) => {
-				return store.devices.find((device) => device.id === id);
-			};
+			return (id) => store.devices.find((device) => device.id === id);
 		},
 		// Filtered list of devices
 		filterDevices(store) {
@@ -169,6 +250,9 @@ const store = createStore({
 		//* Features
 		features(state) {
 			return state.features;
+		},
+		feature(state) {
+			return (name) => state.features[name];
 		},
 	},
 });

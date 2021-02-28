@@ -218,7 +218,8 @@ export default defineComponent({
 		};
 	},
 	mounted() {
-		//!this.$store.dispatch('updateLocalStorageFeatures'); <- Use this whenever you update available features, just once
+		if (this.$store.getters.feature('matrixOrgClient') == null)
+			this.$store.dispatch('updateLocalStorageFeatures'); // <- Use this whenever you update available features, just once
 		this.$store.dispatch('loadData');
 	},
 });

@@ -74,6 +74,9 @@ export default {
 		IonPage,
 	},
 	computed: {
+		/**
+		 * @returns {boolean}
+		 */
 		matrixOrgClient() {
 			return this.$store.getters.feature('matrixOrgClient');
 		},

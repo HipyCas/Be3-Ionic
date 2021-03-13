@@ -47,6 +47,11 @@
 
 <script>
 import {
+	Plugins,
+	FilesystemDirectory,
+	FilesystemEncoding,
+} from '@capacitor/core';
+import {
 	IonItemSliding,
 	IonItem,
 	IonLabel,
@@ -80,6 +85,108 @@ export default {
 		IonIcon,
 	},
 	methods: {
+		async error(device, e) {
+			const alert = await alertController.create({
+				header: 'Error sharing',
+				subheader: `Device ${device.name}`,
+				message: `The following error was risen while sharing the device: ${e}`,
+				buttons: ['OK'],
+			});
+			return alert.present();
+		},
+		async shareDevice(device) {
+			console.log('Collect plugins');
+			const { Filesystem, Share } = Plugins;
+			console.log('Starting read...');
+			// Read base CACHE directory to see if devices folder exists
+			Filesystem.readdir({
+				path: '',
+				directory: Filesystem.Cache,
+			})
+				.then((dir) => {
+					console.log(`> Checking for dir in dir: ${JSON.stringify(dir)}`);
+					for (let i = 0; i < dir.files.length; i++) {
+						console.log(`>> Found folder ${dir.files[i]}`);
+						if (`devices/` === dir.files[i] || `devices` === dir.files[i])
+							return true;
+					}
+					return false;
+				})
+				.then((existsDir) => {
+					// If devices folder exists
+					if (existsDir) {
+						console.log('> Directory devices/ exists, so reading');
+						Filesystem.readdir({
+							path: 'devices/',
+							directory: FilesystemDirectory.Cache,
+						})
+							.then((dir) => {
+								for (let i = 0; i < dir.files.length; i++) {
+									if (`device-${device.name}.json` === dir.files[i])
+										return true;
+								}
+								return false;
+							})
+							.then((exists) => {
+								if (exists) {
+									Filesystem.getUri({
+										path: `devices/device-${device.name}.json`,
+										directory: FilesystemDirectory.Cache,
+									})
+										.then((uri) =>
+											Share.share({
+												title: `Device ${device.name}`,
+												text: `Exported device ${device.name} as JSON file`,
+												url: uri.uri,
+												dialogTitle: `Share device ${device.name}`,
+											})
+										)
+										.catch((e) => this.error(device, e));
+								} else {
+									Filesystem.writeFile({
+										path: `devices/device-${device.name}.json`,
+										directory: FilesystemDirectory.Cache,
+										encoding: FilesystemEncoding.UTF8,
+										data: JSON.stringify(device),
+									})
+										.then((file) => {
+											Share.share({
+												title: `Device ${device.name}`,
+												//text: `Exported device ${device.name} as JSON file`,
+												url: file.uri,
+												dialogTitle: `Share device ${device.name}`,
+											});
+										})
+										.catch((e) => this.error(device, e));
+								}
+							})
+							.catch((e) => this.error(device, e));
+					} else {
+						// If it doesn't
+						console.log(
+							'> Directory devices does not exist, so creating file recursively'
+						);
+						Filesystem.writeFile({
+							path: `devices/device-${device.name}.json`,
+							directory: FilesystemDirectory.Cache,
+							encoding: FilesystemEncoding.UTF8,
+							data: JSON.stringify(device),
+							recursive: true,
+						})
+							.then((file) => {
+								console.log(`>> Sharing file ${JSON.stringify(file)}`);
+								Share.share({
+									title: `Device ${device.name}`,
+									//text: `Exported device ${device.name} as JSON file`,
+									url: file.uri,
+									dialogTitle: `Share device ${device.name}`,
+								});
+							})
+							.catch((e) => this.error(device, e));
+					}
+				})
+				.catch((e) => this.error(device, e));
+		},
 		async moreActionSheet(device) {
 			const actionSheet = await actionSheetController.create({
 				header: `Device ${device.name}`,
@@ -96,6 +203,7 @@ export default {
 						icon: shareSocialSharp,
 						handler: () => {
 							console.log('Clicked share');
+							this.shareDevice(device);
 						},
 					},
 					{

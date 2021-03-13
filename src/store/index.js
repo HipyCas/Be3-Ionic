@@ -13,24 +13,92 @@ const store = createStore({
 					name: 'First',
 					location: '8º5"45\'N 5º56"7\'O',
 					status: 0,
+          permissions: {
+            url: {
+              enabled: true,
+              link: 'https://www.be3dashboard.com/devices/shared/ultjfj6bs64'
+            },
+            people: [
+              {
+                userId: 2,
+                role: 'view'
+              },
+              {
+                userId: 3,
+                role: 'edit'
+              },
+            ],
+            ownerId: 1,
+          }
 				},
 				{
 					id: 2,
 					name: 'Second',
 					location: '8º5"45\'N 5º56"7\'O',
 					status: 1,
+          permissions: {
+            url: {
+              enabled: true,
+              link: 'https://www.be3dashboard.com/devices/shared/ultjfj6bs64'
+            },
+            people: [
+              {
+                userId: 2,
+                role: 'view'
+              },
+              {
+                userId: 3,
+                role: 'edit'
+              },
+            ],
+            ownerId: 1,
+          }
 				},
 				{
 					id: 3,
 					name: 'Third',
 					location: '8º5"45\'N 5º56"7\'O',
 					status: 1,
+          permissions: {
+            url: {
+              enabled: true,
+              link: 'https://www.be3dashboard.com/devices/shared/ultjfj6bs64'
+            },
+            people: [
+              {
+                userId: 2,
+                role: 'view'
+              },
+              {
+                userId: 3,
+                role: 'edit'
+              },
+            ],
+            ownerId: 1,
+          }
 				},
 				{
 					id: 4,
 					name: 'Fourth',
 					location: '8º5"45\'N 5º56"7\'O',
 					status: 2,
+          permissions: {
+            url: {
+              enabled: true,
+              link: 'https://www.be3dashboard.com/devices/shared/ultjfj6bs64'
+            },
+            people: [
+              {
+                userId: 2,
+                role: 'view'
+              },
+              {
+                userId: 3,
+                role: 'edit'
+              },
+            ],
+            ownerId: 1,
+          }
 				},
 			],
 			records: [

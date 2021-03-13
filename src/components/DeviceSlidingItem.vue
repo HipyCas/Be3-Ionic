@@ -60,6 +60,7 @@ import {
 	IonIcon,
 	actionSheetController,
 	alertController,
+	modalController,
 } from '@ionic/vue';
 import {
 	trashBinSharp,
@@ -72,6 +73,7 @@ import {
 	shareSocialSharp,
 	peopleCircleSharp,
 } from 'ionicons/icons';
+import PermissionsModal from '../components/PermissionsModal.vue';
 
 export default {
 	name: 'DeviceSlidingItem',
@@ -187,6 +189,17 @@ export default {
 				})
 				.catch((e) => this.error(device, e));
 		},
+		async openPermissions(device) {
+			const modal = await modalController.create({
+				component: PermissionsModal,
+				componentProps: {
+					title: `Device ${device.name} Permissions`,
+					type: 'device',
+					device,
+				},
+			});
+			return modal.present();
+		},
 		async moreActionSheet(device) {
 			const actionSheet = await actionSheetController.create({
 				header: `Device ${device.name}`,
@@ -211,6 +224,7 @@ export default {
 						icon: peopleCircleSharp,
 						handler: () => {
 							console.log('Clicked permissions');
+							this.openPermissions(device);
 						},
 					},
 				],

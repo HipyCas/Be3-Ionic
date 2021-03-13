@@ -46,6 +46,10 @@ const routes = [
 				path: 'device/:id',
 				component: () => import('../views/Devices/Device.vue'),
 			},
+      // Shared device: device page for devices accessed over public link (no login required)
+      {
+        path: 'shared/:code',
+      },
 			// Add device form: for for adding new device
 			{
 				path: 'add',

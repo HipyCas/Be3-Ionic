@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import { Plugins } from '@capacitor/core';
 import {
 	IonApp,
 	IonContent,
@@ -218,9 +219,11 @@ export default defineComponent({
 		};
 	},
 	mounted() {
-		if (this.$store.getters.feature('matrixOrgClient') == null)
-			this.$store.dispatch('updateLocalStorageFeatures'); // <- Use this whenever you update available features, just once
+		this.$store.dispatch('updateLocalStorageFeatures'); // <- Use this whenever you update available features, just once
 		this.$store.dispatch('loadData');
+
+		const { SplashScreen } = Plugins;
+		SplashScreen.hide();
 	},
 });
 </script>

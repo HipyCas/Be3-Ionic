@@ -43,7 +43,7 @@ import {
 	IonToolbar,
 } from '@ionic/vue';
 import { useRoute } from 'vue-router';
-import { ref, computed, watch } from 'vue';
+import { ref, /*computed, watch */} from 'vue';
 
 export default {
 	name: 'Folder',
@@ -59,11 +59,11 @@ export default {
 	setup() {
 		const route = useRoute();
 		const folder = ref(route.params.id || 'Inbox');
-		const matchedFolder = computed(() => route.params.id);
+		//const matchedFolder = computed(() => route.params.id);
 
-		watch(matchedFolder, () => {
+		/*watch(matchedFolder, () => {
 			folder.value = matchedFolder.value as string;
-		});
+		});*/
 
 		return { folder };
 	},

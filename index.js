@@ -13,7 +13,7 @@ const app = express();
 app.use(
 	cors({
 		origin: function (origin, callback) {
-			let allowedOrigins = [
+			/*let allowedOrigins = [
 				'localhost:5000',
 				'localhost:3000',
 				'localhost:3001',
@@ -23,7 +23,7 @@ app.use(
 				'acer.duo:5000',
 				'acer.duo:3000',
 				'acer.duo:3001',
-			];
+			];*/
 
 			// allow requests with no origin
 			// (like mobile apps or curl requests)

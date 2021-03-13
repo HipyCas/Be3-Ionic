@@ -16,7 +16,7 @@ const store = createStore({
           permissions: {
             url: {
               enabled: true,
-              link: 'https://www.be3dashboard.com/devices/shared/ultjfj6bs64'
+              code: 'ultjfj6bs64'
             },
             people: [
               {
@@ -39,7 +39,7 @@ const store = createStore({
           permissions: {
             url: {
               enabled: true,
-              link: 'https://www.be3dashboard.com/devices/shared/ultjfj6bs64'
+              code: 'ultjfj6bs64'
             },
             people: [
               {
@@ -62,7 +62,7 @@ const store = createStore({
           permissions: {
             url: {
               enabled: true,
-              link: 'https://www.be3dashboard.com/devices/shared/ultjfj6bs64'
+              code: 'ultjfj6bs64'
             },
             people: [
               {
@@ -85,7 +85,7 @@ const store = createStore({
           permissions: {
             url: {
               enabled: true,
-              link: 'https://www.be3dashboard.com/devices/shared/ultjfj6bs64'
+              code: 'ultjfj6bs64'
             },
             people: [
               {

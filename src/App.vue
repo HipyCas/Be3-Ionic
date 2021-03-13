@@ -10,7 +10,7 @@
 						<ion-button
 							fill="clear"
 							expand=""
-							@click="openPopover()"
+							@click="openPopover"
 							color="medium"
 							class="dropdown-button"
 						>

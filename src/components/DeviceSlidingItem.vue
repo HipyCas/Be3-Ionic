@@ -86,6 +86,9 @@ export default {
 		IonItemOption,
 		IonIcon,
 	},
+	data() {
+		return {};
+	},
 	methods: {
 		async error(device, e) {
 			const alert = await alertController.create({
@@ -192,6 +195,7 @@ export default {
 		async openPermissions(device) {
 			const modal = await modalController.create({
 				component: PermissionsModal,
+				swipeToClose: true, //? Revert, may be problematic for updating permissions in store and db
 				componentProps: {
 					title: `Device ${device.name} Permissions`,
 					type: 'device',

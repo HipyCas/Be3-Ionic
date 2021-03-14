@@ -2,6 +2,14 @@
 	<ion-header translucent>
 		<ion-toolbar>
 			<ion-title>{{ title }}</ion-title>
+			<ion-button
+				@click="dismiss"
+				fill="clear"
+				slot="end"
+				style="margin-right:0.5em"
+			>
+				Done
+			</ion-button>
 		</ion-toolbar>
 	</ion-header>
 	<ion-content class="ion-padding">
@@ -66,6 +74,7 @@ import {
 	IonIcon,
 	IonChip,
 	IonAvatar,
+	modalController,
 } from '@ionic/vue';
 import {
 	shareSocialSharp,
@@ -137,6 +146,9 @@ export default {
 		},
 		editPermissions(person) {
 			console.log(person);
+		},
+		dismiss() {
+			modalController.dismiss();
 		},
 	},
 	setup() {

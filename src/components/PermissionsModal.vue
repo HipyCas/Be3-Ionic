@@ -40,6 +40,10 @@
 					:ios="pencilOutline"
 				></ion-icon>
 			</ion-chip>
+			<ion-chip>
+				<ion-label>Add</ion-label>
+				<ion-icon :md="addSharp" :ios="addOutline"></ion-icon>
+			</ion-chip>
 		</div>
 	</ion-content>
 </template>
@@ -68,6 +72,8 @@ import {
 	shareSocialOutline,
 	pencilSharp,
 	pencilOutline,
+	addSharp,
+	addOutline,
 } from 'ionicons/icons';
 
 export default {
@@ -139,6 +145,8 @@ export default {
 			shareSocialOutline,
 			pencilSharp,
 			pencilOutline,
+			addSharp,
+			addOutline,
 		};
 	},
 	mounted() {

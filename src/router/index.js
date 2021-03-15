@@ -16,6 +16,17 @@ const routes = [
 		path: '/overview/',
 		component: Overview,
 	},
+  //* Auth
+  // Login
+  {
+    path: '/auth/login',
+    component: () => import('../views/Auth/Login.vue'),
+  },
+  // Logout
+  {
+    path: '/auth/logout',
+    component: () => import('../views/Auth/Logout.vue'),
+  },
 	//* Devices
 	{
 		path: '/devices/',

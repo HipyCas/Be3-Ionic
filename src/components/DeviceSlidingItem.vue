@@ -100,6 +100,7 @@ export default {
 			return alert.present();
 		},
 		async shareDevice(device) {
+			if (device == null) return;
 			console.log('Collect plugins');
 			const { Filesystem, Share } = Plugins;
 			console.log('Starting read...');
@@ -193,6 +194,7 @@ export default {
 				.catch((e) => this.error(device, e));
 		},
 		async openPermissions(device) {
+			if (device == null) return;
 			const modal = await modalController.create({
 				component: PermissionsModal,
 				swipeToClose: true, //? Revert, may be problematic for updating permissions in store and db
@@ -205,6 +207,7 @@ export default {
 			return modal.present();
 		},
 		async moreActionSheet(device) {
+			if (device == null) return;
 			const actionSheet = await actionSheetController.create({
 				header: `Device ${device.name}`,
 				buttons: [
@@ -236,6 +239,7 @@ export default {
 			return actionSheet.present();
 		},
 		async deleteConfirmation(device) {
+			if (device == null) return;
 			const alert = await alertController.create({
 				header: 'Confirm Delete',
 				subHeader: `Device ${device.name}`,

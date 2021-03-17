@@ -4,6 +4,15 @@ import { createStore } from 'vuex';
 import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
 
+const defaultFeatures = {
+	forceDarkTheme: false,
+	customAccentColor: false,
+	customAccentColorValue: 'blue',
+	matrixOrgClient: true,
+	customViews: false,
+	customViewsValue: 0,
+};
+
 const store = createStore({
 	state() {
 		return {
@@ -13,92 +22,92 @@ const store = createStore({
 					name: 'First',
 					location: '8º5"45\'N 5º56"7\'O',
 					status: 0,
-          permissions: {
-            url: {
-              enabled: true,
-              code: 'ultjfj6bs64'
-            },
-            people: [
-              {
-                userId: 2,
-                role: 'view'
-              },
-              {
-                userId: 3,
-                role: 'edit'
-              },
-            ],
-            ownerId: 1,
-          }
+					permissions: {
+						url: {
+							enabled: true,
+							code: 'ultjfj6bs64',
+						},
+						people: [
+							{
+								userId: 2,
+								role: 'view',
+							},
+							{
+								userId: 3,
+								role: 'edit',
+							},
+						],
+						ownerId: 1,
+					},
 				},
 				{
 					id: 2,
 					name: 'Second',
 					location: '8º5"45\'N 5º56"7\'O',
 					status: 1,
-          permissions: {
-            url: {
-              enabled: true,
-              code: 'ultjfj6bs64'
-            },
-            people: [
-              {
-                userId: 2,
-                role: 'view'
-              },
-              {
-                userId: 3,
-                role: 'edit'
-              },
-            ],
-            ownerId: 1,
-          }
+					permissions: {
+						url: {
+							enabled: true,
+							code: 'ultjfj6bs64',
+						},
+						people: [
+							{
+								userId: 2,
+								role: 'view',
+							},
+							{
+								userId: 3,
+								role: 'edit',
+							},
+						],
+						ownerId: 1,
+					},
 				},
 				{
 					id: 3,
 					name: 'Third',
 					location: '8º5"45\'N 5º56"7\'O',
 					status: 1,
-          permissions: {
-            url: {
-              enabled: true,
-              code: 'ultjfj6bs64'
-            },
-            people: [
-              {
-                userId: 2,
-                role: 'view'
-              },
-              {
-                userId: 3,
-                role: 'edit'
-              },
-            ],
-            ownerId: 1,
-          }
+					permissions: {
+						url: {
+							enabled: true,
+							code: 'ultjfj6bs64',
+						},
+						people: [
+							{
+								userId: 2,
+								role: 'view',
+							},
+							{
+								userId: 3,
+								role: 'edit',
+							},
+						],
+						ownerId: 1,
+					},
 				},
 				{
 					id: 4,
 					name: 'Fourth',
 					location: '8º5"45\'N 5º56"7\'O',
 					status: 2,
-          permissions: {
-            url: {
-              enabled: true,
-              code: 'ultjfj6bs64'
-            },
-            people: [
-              {
-                userId: 2,
-                role: 'view'
-              },
-              {
-                userId: 3,
-                role: 'edit'
-              },
-            ],
-            ownerId: 1,
-          }
+					permissions: {
+						url: {
+							enabled: true,
+							code: 'ultjfj6bs64',
+						},
+						people: [
+							{
+								userId: 2,
+								role: 'view',
+							},
+							{
+								userId: 3,
+								role: 'edit',
+							},
+						],
+						ownerId: 1,
+					},
 				},
 			],
 			records: [
@@ -161,6 +170,7 @@ const store = createStore({
 		loadFeatures(state) {
 			Storage.get({ key: 'features' })
 				.then(({ value }) => {
+					value = value || defaultFeatures;
 					state.features = JSON.parse(value);
 					console.info(
 						`Successfully updated features from localStorage to ${value}`

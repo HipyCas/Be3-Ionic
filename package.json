@@ -9,7 +9,8 @@
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
-    "start": "node index.js"
+    "start": "node index.js",
+    "firebase:deploy": "vue-cli-service build && firebase deploy --only hosting"
   },
   "dependencies": {
     "@capacitor/android": "^2.4.5",

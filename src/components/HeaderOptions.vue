@@ -13,7 +13,6 @@
 import { IonList, IonItem } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { logout } from '../composables/auth';
-import { LOGOUT_REDIRECT_HTTPS, BASE_URL } from '../../env';
 
 export default defineComponent({
 	name: 'HeaderOptions',
@@ -25,8 +24,6 @@ export default defineComponent({
 				dismissOnDone: true,
 				dismissAfterCallback: true,
 				redirectToLogin: true,
-				redirectToHttps: LOGOUT_REDIRECT_HTTPS,
-				baseURL: BASE_URL,
 			});
 		},
 	},

@@ -15,12 +15,19 @@ export async function login(email, password) {
 }
 
 /**
+ * Callback function to run on error
+ * 
+ * @callback onErrorFunction
+ * @param {*} err The error message
+ */
+
+/**
+ * Function to logout a user asynchronously, and while it logs out, returns an IonLoading
  *
- * @param {*} app The Vue instance (this)
  * @param {Function} callback A callback function to execute when finished logout
  * @param {Object} [options] Options object
  * @param {number} [options.duration=3000] Number of milliseconds before automatic dismissal of loading overlay (duration option of overlay)
- * @param {Function} [options.onError] A function to run when an error is risen
+ * @param {onErrorFunction} [options.onError] A function to run when an error is risen
  * @param {boolean} [options.dismissOnError=true] Whether to dismiss the loading overlay when an error is risen
  * @param {boolean} [options.dismissAfterOnError=false] Wether to dismiss the loading overlay before or after the onError function (when error thrown)
  * @param {boolean} [options.dismissOnDone=true] Whether to dismiss the loading overlay when successfully logged out
@@ -29,6 +36,7 @@ export async function login(email, password) {
  * @param {string} [options.loginRoute='/auth/login'] Route to redirect to when redirecting to login
  * @param {string} [options.baseURL='localhost:8100'] The base URL were the page is running (required for proper redirect)
  * @param {boolean} [options.redirectToHttps=false] Whether to redirect to https or http
+ * 
  * @returns () => Promise<void>
  */
 export async function logout(

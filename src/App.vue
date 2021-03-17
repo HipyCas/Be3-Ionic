@@ -219,7 +219,7 @@ export default defineComponent({
 		};
 	},
 	mounted() {
-		this.$store.dispatch('updateLocalStorageFeatures'); // <- Use this whenever you update available features, just once
+		//this.$store.dispatch('updateLocalStorageFeatures'); // <- Use this whenever you update available features, just once
 		this.$store.dispatch('loadData');
 
 		const { SplashScreen } = Plugins;

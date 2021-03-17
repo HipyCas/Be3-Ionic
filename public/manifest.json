@@ -1,7 +1,7 @@
 {
-	"name": "Be3_Ionic",
-	"short_name": "Be3_Ionic",
-	"theme_color": "#4DBA87",
+	"name": "Be3 Dashboard",
+	"short_name": "Be3",
+	"theme_color": "#3880ff",
 	"icons": [
 		{
 			"src": "./img/icons/android-chrome-192x192.png",
@@ -28,5 +28,5 @@
 	],
 	"start_url": ".",
 	"display": "standalone",
-	"background_color": "#000000"
+	"background_color": "#121212"
 }

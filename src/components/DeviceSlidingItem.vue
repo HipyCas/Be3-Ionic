@@ -109,40 +109,43 @@ export default {
             .catch(err => reject(err));
         });
       };
-      const fallback = async device => {
-        const clipboardAlert = await alertController.create({
-          header: 'Direct share not available',
-          subHeader: `Device ${device.name}`,
-          message:
-            'Your browser or platform does not allow native sharing. Instead, the URL for the shared will be stored in your clipboard.',
-          buttons: [
-            {
-              text: 'Cancel',
-              role: 'cancel',
-            },
-            {
-              text: 'Copy', //? Change by proceed
-              handler: async () => {
-                Clipboard.write({
-                  string: `Access the Be3 device ${this.device.name} through this link! https://www.be3dashboard.com/devices/shared/${device.permissions.url.code}`,
-                }).then(async () => {
-									const toast = await toastController.create({
-										message: 'Link succesfully copied to clipboard!',
-										duration: 2000
-										//? Add circled check icon to right for dismissing or just as visual support (looks good to me)
-									});
-
-									return toast.present();
-								})
+      const fallback = async (device, err) => {
+        console.log(`The following error was rose: ${err}`)
+        if (err === 'Web Share API not available') {
+          const clipboardAlert = await alertController.create({
+            header: 'Direct share not available',
+            subHeader: `Device ${device.name}`,
+            message:
+              'Your browser or platform does not allow native sharing. Instead, the URL for the shared will be stored in your clipboard.',
+            buttons: [
+              {
+                text: 'Cancel',
+                role: 'cancel',
               },
-            },
-          ],
-        });
+              {
+                text: 'Copy', //? Change by proceed
+                handler: async () => {
+                  Clipboard.write({
+                    string: `Access the Be3 device ${this.device.name} through this link! https://www.be3dashboard.com/devices/shared/${device.permissions.url.code}`,
+                  }).then(async () => {
+                    const toast = await toastController.create({
+                      message: 'Link succesfully copied to clipboard!',
+                      duration: 2000
+                      //? Add circled check icon to right for dismissing or just as visual support (looks good to me)
+                    });
 
-        return clipboardAlert.present();
+                    return toast.present();
+                  })
+                },
+              },
+            ],
+          });
+
+          return clipboardAlert.present();
+        }
       };
       if (device.permissions.url.enabled) {
-        share(device).catch(() => fallback(device));
+        share(device).catch((err) => fallback(device, err));
       } else {
         const alert = await alertController.create({
           header: 'Enable link sharing',

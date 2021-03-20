@@ -57,6 +57,7 @@ import {
   actionSheetController,
   alertController,
   modalController,
+	toastController,
 } from '@ionic/vue';
 import {
   trashBinSharp,
@@ -121,10 +122,18 @@ export default {
             },
             {
               text: 'Copy', //? Change by proceed
-              handler: () => {
+              handler: async () => {
                 Clipboard.write({
                   string: `Access the Be3 device ${this.device.name} through this link! https://www.be3dashboard.com/devices/shared/${device.permissions.url.code}`,
-                });
+                }).then(async () => {
+									const toast = await toastController.create({
+										message: 'Link succesfully copied to clipboard!',
+										duration: 2000
+										//? Add circled check icon to right for dismissing or just as visual support (looks good to me)
+									});
+
+									return toast.present();
+								})
               },
             },
           ],

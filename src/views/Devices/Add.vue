@@ -88,6 +88,8 @@
 </template>
 
 <script>
+//? Image/Thumbnail field for device?
+
 import {
   IonPage,
   IonContent,

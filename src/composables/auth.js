@@ -61,7 +61,7 @@ export async function logout(
 				loading.dismiss();
 			if (options.redirectToLogin)
 				// window.location.href = 'http' + (options.redirectToHttps ? 's' : '') + '://' + (options.baseURL ?? 'localhost:8100') + (options.loginRoute ?? '/auth/login');
-        window.location.href = options.loginRoute ?? '/auth/login';
+        window.location.href = options.loginRoute ?? '/auth/login';  // TODO Change this for router.push, but before ensure that side panel gets hidden (watch for route or maybe computed prop)
 		})
 		.catch((err) => {
 			if (options.onError) {

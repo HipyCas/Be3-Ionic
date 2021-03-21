@@ -57,7 +57,7 @@ import {
   actionSheetController,
   alertController,
   modalController,
-	toastController,
+  toastController,
 } from '@ionic/vue';
 import {
   trashBinSharp,
@@ -71,6 +71,7 @@ import {
   peopleCircleSharp,
 } from 'ionicons/icons';
 import PermissionsModal from '../components/PermissionsModal.vue';
+import { deleteDevice } from '../composables/devices';
 
 export default {
   name: 'DeviceSlidingItem',
@@ -110,7 +111,7 @@ export default {
         });
       };
       const fallback = async (device, err) => {
-        console.log(`The following error was rose: ${err}`)
+        console.log(`The following error was rose: ${err}`);
         if (err === 'Web Share API not available') {
           const clipboardAlert = await alertController.create({
             header: 'Direct share not available',
@@ -130,12 +131,12 @@ export default {
                   }).then(async () => {
                     const toast = await toastController.create({
                       message: 'Link succesfully copied to clipboard!',
-                      duration: 2000
+                      duration: 2000,
                       //? Add circled check icon to right for dismissing or just as visual support (looks good to me)
                     });
 
                     return toast.present();
-                  })
+                  });
                 },
               },
             ],
@@ -145,7 +146,7 @@ export default {
         }
       };
       if (device.permissions.url.enabled) {
-        share(device).catch((err) => fallback(device, err));
+        share(device).catch(err => fallback(device, err));
       } else {
         const alert = await alertController.create({
           header: 'Enable link sharing',
@@ -324,6 +325,7 @@ export default {
             text: 'Delete',
             cssClass: 'delete',
             handler: () => {
+              deleteDevice(this.$store, device);
               console.log(`Device #${device.id} deleted`);
             },
           },

@@ -78,6 +78,7 @@ export default {
 	},
 	methods: {
 		async confirmDelete(alert) {
+			if (alert == null) return;
 			const confirm = await alertController.create({
 				header: 'Confirm delete',
 				subHeader: `Alert #${alert.title}`,
@@ -103,6 +104,7 @@ export default {
 			return confirm.present();
 		},
 		async moreActionSheet(alert) {
+			if (alert == null) return;
 			const actionSheet = await actionSheetController.create({
 				header: `Alert #${alert.id}`,
 				buttons: [

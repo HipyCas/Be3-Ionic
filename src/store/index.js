@@ -188,17 +188,31 @@ const store = createStore({
 		updateFeature(state, options) {
 			state.features[options.name] = options.value;
 		},
+    //* Devices
+    /**
+     * Delete a device from the store based on its id
+     * @param {*} state 
+     * @param {int} id The id of the device to delete
+     */
+		deleteDevice(state, id) {
+			state.devices = state.devices.filter(( device ) => device.id !== id);
+		},
 	},
 	actions: {
+    /**
+     * @callback commitFunction 
+     * @param {string} mutation The mutation to run
+     * @param {...*} args Arguments passed to mutation
+     */
 		loadData(context) {
-			console.log(`Started load of devices from DB`);
+			console.log(`Started load of devices from DB (async)`);
 			axios
 				.get('localhost:9000/devices/')
 				.then((response) => context.commit('updateDevices', response.data))
 				.catch((err) =>
 					console.error(`Caught error when requesting all devices: ${err}`)
 				);
-			console.log(`Started load of records from DB`);
+			console.log(`Started load of records from DB (async)`);
 			axios
 				.get('localhost:9000/records/')
 				.then((response) => context.commit('updateRecords', response.data))
@@ -285,6 +299,16 @@ const store = createStore({
 				.catch((e) =>
 					console.error(`Error when updating features in localStorage: ${e}`)
 				);
+		},
+    //* Devices
+    /**
+     * Delete a device from the 
+     * @param {object} context
+     * @param {commitFunction} context.commit Function that executes a mutation
+     * @param {int} id The id of the device to delete
+     */
+		deleteDevice({ commit }, id) {
+			commit('deleteDevice', id);
 		},
 	},
 	getters: {

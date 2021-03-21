@@ -74,6 +74,7 @@ import {
 	peopleCircleSharp,
 } from 'ionicons/icons';
 import PermissionsModal from '../components/PermissionsModal.vue';
+import { deleteDevice } from '../composables/devices';
 
 export default {
 	name: 'DeviceSlidingItem',
@@ -256,6 +257,7 @@ export default {
 						text: 'Delete',
 						cssClass: 'delete',
 						handler: () => {
+							deleteDevice(this.$store, device);
 							console.log(`Device #${device.id} deleted`);
 						},
 					},

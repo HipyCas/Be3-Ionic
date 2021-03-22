@@ -2,12 +2,6 @@
 
 The Be3 Project official web and native dashboard built with Ionic for fast, intuitive and multi-platform management of your Be3 installation and visualizing the data collected
 
-## Robust framework and 24h team
-
-// This shouldn't be on the README really
-
-Built with fully open-source technologies that have been in development for many years now, ensuring a robust, secure and feature-full framework. This combined with a full-day support technical team makes the Be3 Dashboard flawless and.
-
 ## Official instance
 
 From The Be3 Project team itself, an online dashboard is online and working, with its very own server and with its own connected Be3 Sense devices. For anyone looking to use this as business, or even as an individual, they should definitely take a look at this ready-to-use and zero-config official instance, with 24h support, effortless setup, remotely managed by our expert team and native clients (Android, Apple and PC) ready to install. To take a look at our highly recommendable instance and how to get started, go to our [official webpage](https://be3.project).
@@ -20,7 +14,7 @@ A full documentation, both for users of the dashboard and IT specialists, or sim
 
 ## Running locally
 
-The dashboard uses the Ionic framework with Vue as underlining JavaScript framework. For running locally, you can run the NPM serve script, although it is not recommended, as it is slower than a development build and has hot module reloading. For running the dashboard, it is recommended to build the Ionic project and serve it via Apache or Nginx or creating a server for serving the files. For building, you can simply run the `build` NPM script, as shown below:
+The dashboard uses the Ionic framework with Vue as underlining JavaScript framework. For running locally, you can run the NPM `serve` script, although it is not recommended, as it is slower than a development build and has hot module reloading. For running the dashboard, it is recommended to build the Ionic project and serve it via Apache or Nginx or creating a server for serving the files. For building, you can simply run the `build` NPM script, as shown below:
 
 ```sh
 npm i

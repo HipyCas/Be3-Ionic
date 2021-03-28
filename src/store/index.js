@@ -4,6 +4,22 @@ import { createStore } from 'vuex';
 import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
 
+// TODO Change devices location to object parameter
+
+/**
+ * @typedef Device
+ * @param {number} id The device id, auto-incremental
+ * @param {string} name
+ * @param {string} location
+ * @param {number} status 0 - Online, 1 - Warning, 2 - Error/OffLine
+ * @param {object} permissions
+ * @param {object} permissions.url
+ * @param {boolean} permissions.url.enabled
+ * @param {string} permissions.url.code
+ * @param {object[]} permissions.people
+ * @param {number} permissions.ownerId
+ */
+
 const defaultFeatures = {
 	forceDarkTheme: false,
 	customAccentColor: false,
@@ -12,6 +28,36 @@ const defaultFeatures = {
 	customViews: false,
 	customViewsValue: 0,
 };
+
+const emptyDevice = {
+	id: -1,
+	name: 'Unknown Device',
+	status: 0,
+	location: 'Undefined',
+	permissions: {
+		url: {
+			enabled: false,
+			code: 'safhie5'
+		},
+		people: [
+		],
+		ownerId: -1
+	}
+}
+
+const defaultDevicePermissions = {
+	url: {
+		enabled: false,
+		code: 'safhie5'
+	},
+	people: [],
+	ownerId: -1
+}
+
+const defaultDevicePermissionsUrl = {
+	enabled: false,
+	code: 'safhie5'
+}
 
 const store = createStore({
 	state() {
@@ -189,6 +235,31 @@ const store = createStore({
 			state.features[options.name] = options.value;
 		},
     //* Devices
+		/**
+		 * Add a device to the store
+		 * @param {*} state
+		 * @param {Device} data The device to be added
+		 */
+		addDevice(state, data) {
+			data['id'] = state.devices[state.devices.length - 1].id + 1 // Set id to be next available (one more than last)
+			// Ensure that all properties are defined to their defaults
+			if (data.permissions == undefined)  data.permissions = defaultDevicePermissions
+			else {
+				data['permissions']['url'] = {
+					...defaultDevicePermissionsUrl,
+					...data?.permissions?.url
+				}
+				data['permissions'] = {
+					...defaultDevicePermissions,
+					...data?.permissions
+				}
+			}
+			// Push to array
+			state.devices.push({
+				...emptyDevice,
+				...data
+			})
+		},
     /**
      * Delete a device from the store based on its id
      * @param {*} state 
@@ -197,6 +268,11 @@ const store = createStore({
 		deleteDevice(state, id) {
 			state.devices = state.devices.filter(( device ) => device.id !== id);
 		},
+		updateDevice(state, id, data) {
+			state.devices.forEach((i, device) => {
+				if (device.id === id) state.devices[i] = data
+			})
+		}
 	},
 	actions: {
     /**
@@ -301,6 +377,9 @@ const store = createStore({
 				);
 		},
     //* Devices
+		addDevice({ commit }, data) {
+			commit('addDevice', data)
+		},
     /**
      * Delete a device from the 
      * @param {object} context

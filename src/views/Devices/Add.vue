@@ -11,7 +11,7 @@
             <ion-col style="margin-top: 1rem">
               <ion-item>
                 <ion-label position="floating">Device name</ion-label>
-                <ion-input v-model="name" required></ion-input>
+                <ion-input v-model="deviceName" required></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -22,20 +22,35 @@
             <ion-col size="12" size-md="4">
               <ion-item>
                 <ion-label position="floating">Name</ion-label>
-                <ion-input v-model="locationName" :required="!coordinatesDefined"></ion-input>
+                <ion-input
+                  v-model="locationName"
+                  :required="!coordinatesDefined"
+                ></ion-input>
               </ion-item>
             </ion-col>
             <ion-col>
               <ion-item>
                 <ion-label position="floating">North (Coordinates)</ion-label>
-                <ion-input type="number" max="90" min="-90" v-model="locationNorth" :required="!locationNameDefined"></ion-input>
+                <ion-input
+                  type="number"
+                  max="90"
+                  min="-90"
+                  v-model="locationNorth"
+                  :required="!locationNameDefined"
+                ></ion-input>
               </ion-item>
               <!--ion-note style="display:inline">N</!--ion-note-->
             </ion-col>
             <ion-col>
               <ion-item>
                 <ion-label position="floating">West (Coordinates)</ion-label>
-                <ion-input type="number" max="90" min="-90" v-model="locationWest" :required="!locationNameDefined"></ion-input>
+                <ion-input
+                  type="number"
+                  max="90"
+                  min="-90"
+                  v-model="locationWest"
+                  :required="!locationNameDefined"
+                ></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -73,12 +88,18 @@
           </ion-row>
           <ion-row style="margin-top: 2rem">
             <ion-col size="12" size-md="4" size-lg="4" size-xl="4">
-              <ion-button color="danger" fill="outline" expand="block" router-link="/devices/list"
+              <ion-button
+                color="danger"
+                fill="outline"
+                expand="block"
+                router-link="/devices/list"
                 >Cancel</ion-button
               >
             </ion-col>
             <ion-col size="12" size-md="8" size-lg="8" size-xl="8">
-              <ion-button color="primary" expand="block" type="submit">Save</ion-button>
+              <ion-button color="primary" expand="block" type="submit"
+                >Save</ion-button
+              >
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -110,6 +131,8 @@ import {
   reloadOutline,
 } from 'ionicons/icons';
 
+import { addDevice } from '../../composables/devices'
+
 export default {
   name: 'DevicesAdd',
   components: {
@@ -129,31 +152,40 @@ export default {
   data() {
     return {
       fromScan: false,
-			name: '',
-			locationName: '',
-			locationNorth: '',
-			locationWest: '',
+      deviceName: '',
+      locationName: '',
+      locationNorth: '',
+      locationWest: '',
       APIkey: 'skdi342343FJFFE45SJasde8234FDsf84hje',
       APIidentifier: 'ji32h',
     };
   },
-	computed: {
-		coordinatesDefined() {
-			return this.locationNorth.length > 0 && this.locationWest.length > 0
-		},
-		locationNameDefined() {
-			return this.locationName.length > 0
-		}
-	},
+  computed: {
+    coordinatesDefined() {
+      return this.locationNorth.length > 0 && this.locationWest.length > 0;
+    },
+    locationNameDefined() {
+      return this.locationName.length > 0;
+    },
+  },
   methods: {
+    getRandomStatus: () => Math.floor(Math.random() * 3),
     reloadAPI() {
       console.log('reloaded!');
     },
-		createDevice() {
-			this.name = ''; this.locationName = ''; this.locationNorth = ''; this.locationWest = '';
-			console.log('Hey! We cannot create a device yet, wait a bit please! Meanwhile, go back to the dashboard');
-			this.$router.push('/devices/list')
-		}
+    createDevice() {
+      addDevice(this.$store, {
+        name: this.deviceName,
+        location: `${this.locationName} - ${this.locationNorth}°N ${this.locationWest}`,
+        status: this.getRandomStatus(),
+      });
+      this.deviceName = '';
+      this.locationName = '';
+      this.locationNorth = '';
+      this.locationWest = '';
+      // console.log('Hey! We cannot create a device yet, wait a bit please! Meanwhile, go back to the dashboard');
+      this.$router.push('/devices/list');
+    },
   },
   setup() {
     return {

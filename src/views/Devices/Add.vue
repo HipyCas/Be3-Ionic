@@ -131,7 +131,7 @@ import {
   reloadOutline,
 } from 'ionicons/icons';
 
-import { addDevice } from '../../composables/devices'
+import { addDevice } from '../../composables/devices';
 
 export default {
   name: 'DevicesAdd',
@@ -176,7 +176,7 @@ export default {
     createDevice() {
       addDevice(this.$store, {
         name: this.deviceName,
-        location: `${this.locationName} - ${this.locationNorth}°N ${this.locationWest}`,
+        location: `${this.locationName} - ${this.locationNorth}°N ${this.locationWest}°W`,
         status: this.getRandomStatus(),
       });
       this.deviceName = '';

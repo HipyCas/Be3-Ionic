@@ -37,7 +37,6 @@
           slot="top"
           :md="ellipsisHorizontalSharp"
           :ios="ellipsisVerticalOutline"
-          @click="moreActionSheet"
         ></ion-icon>
         More
       </ion-item-option>

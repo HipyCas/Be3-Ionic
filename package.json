@@ -17,6 +17,7 @@
     "@capacitor/storage": "^0.3.3",
     "@ionic/vue": "^5.4.0",
     "@ionic/vue-router": "^5.4.0",
+    "@supabase/supabase-js": "^1.11.10",
     "@vuex-orm/core": "^0.36.3",
     "axios": "^0.21.1",
     "chart.js": "^2.9.4",

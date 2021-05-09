@@ -205,6 +205,8 @@ const store = createStore({
         customViews: false,
         customViewsValue: 0,
       },
+      user: null,
+      supabase: null,
     };
   },
   mutations: {
@@ -278,6 +280,12 @@ const store = createStore({
       state.devices.forEach((i, device) => {
         if (device.id === id) state.devices[i] = data;
       });
+    },
+    setUser(state, user) {
+      state.user = user;
+    },
+    setSupabase(state, client) {
+      state.supabase = client;
     },
   },
   actions: {
@@ -395,6 +403,12 @@ const store = createStore({
     deleteDevice({ commit }, id) {
       commit('deleteDevice', id);
     },
+    setUser({ commit }, user) {
+      commit('setUser', user);
+    },
+    setSupabase({ commit }, client) {
+      commit('setSupabase', client);
+    },
   },
   getters: {
     //* Devices
@@ -440,6 +454,12 @@ const store = createStore({
     },
     feature(state) {
       return name => state.features[name];
+    },
+    user({ user }) {
+      return user;
+    },
+    supabase({ supabase }) {
+      return supabase;
     },
   },
 });

@@ -5,6 +5,9 @@ import DataTabs from '../views/Data/Tabs.vue';
 import SettingsTabs from '../views/Settings/Tabs.vue';
 import MessagesTabs from '../views/Messages/Tabs.vue';
 
+import { supabase } from '../composables/supabase';
+import store from '../store';
+
 const routes = [
   //* Start redirect
   {
@@ -162,5 +165,26 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
+
+function authGuard(to, from, next) {
+  console.log('Supabase as a whole: ', supabase);
+  console.log('My lovely user: ', supabase.auth.user());
+  if (to.path === '/auth/login') next();
+  else {
+    if (
+      (supabase.auth.user() === null || supabase.auth.user() === undefined) &&
+      (store.getters.user === null || store.getters.user === undefined)
+    ) {
+      console.warn(
+        'ho ho I caught you trying to sneak around, please be kind and login'
+      );
+      next('/auth/login');
+    } else next();
+  }
+}
+
+authGuard;
+
+//! router.beforeEach(authGuard); NOT WORKING, RETURNING THAT USER IS NULL
 
 export default router;
